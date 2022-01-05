@@ -1,6 +1,18 @@
-[![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
+# Installation
+1. Run `npm install` to install all packages
+2. Create an Application Insights Resource [see docs](https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-new-resource)
+3. Place Appliction-Key from AppInsight into env file
+4. Source `.env` `export $(grep -v '^#' .env | xargs)`
+    - Unset variables with `unset $(grep -v '^#' .env | sed -E 's/(.*)=.*/\1/' | xargs)`
+# Run Project
+1. Start the project with `npm run dev` command.
 
-# moleculer-demo
+# TODO
+- [x] Initial Tracer
+- [ ] Send errors to AppInsights
+- [ ] Send metrics to AppInsights
+
+<!-- # moleculer-demo
 This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
 
 ## Usage
@@ -36,3 +48,5 @@ In the terminal, try the following commands:
 - `npm test`: Run tests & generate coverage report
 - `npm run dc:up`: Start the stack with Docker Compose
 - `npm run dc:down`: Stop the stack with Docker Compose
+
+ -->

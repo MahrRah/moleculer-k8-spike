@@ -1,5 +1,5 @@
 "use strict";
-
+const { MoleculerError } = require("moleculer").Errors;
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
@@ -21,9 +21,11 @@ module.exports = {
 				method: "GET",
 				path: "/hello2"
 			},
-			async handler() {
-				console.log("heree2");
-				// throw "fuuu";
+			async handler(ctx) {
+				const d = new Date();
+				if (!(Math.round(d.getTime() / 60000) % 10 === 0)) {
+					throw new MoleculerError("Wups! Something happened", 501, "ERR_SOMETHING", { requestID: ctx.requestID, nodeID:ctx.nodeID}); 
+				}
 				return "Hello Moleculer2";
 			}
 		},

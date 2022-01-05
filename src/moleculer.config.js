@@ -1,4 +1,4 @@
-const AppInsightsTracingExporter = require("./azuretracer");
+const AppInsightsTracingExporter = require("./observability/azuretracer");
 /**
  * Moleculer ServiceBroker configuration file
  *
