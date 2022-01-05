@@ -39,16 +39,7 @@ class AppInsightsTracingExporter extends TracerBase {
 	}
 
 	spanFinished(span) {
-		console.log(span);
-		this.client.trackRequest({ name: span.name, url: span.service.name, duration: span.duration, resultCode: 200, success: true });
-
-		// this.client.trackRequest({
-		// 	name: "molecular" + span.name,
-		// 	url: "",
-		// 	duration: span.duration,
-		// 	resultCode: span.error == null ? 200 : span.error.code,
-		// 	success: span.error == null ? true: false,
-		// });
+		this.client.trackRequest({ name: span.name, url: span.service.name, duration: span.duration, resultCode: !span.error ? 200 : span.error.code, success: !span.error });
 		this.client.flush();
 	}
 }
