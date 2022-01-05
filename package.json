@@ -25,9 +25,11 @@
     "moleculer-repl": "^0.6.6"
   },
   "dependencies": {
+    "applicationinsights": "^2.1.9",
+    "lodash": "^4.17.21",
+    "moleculer": "^0.14.16",
     "moleculer-web": "^0.10.2",
-    "nats": "^2.2.0",
-    "moleculer": "^0.14.16"
+    "nats": "^2.2.0"
   },
   "engines": {
     "node": ">= 12.x.x"

@@ -29,12 +29,22 @@ module.exports = {
 		 *
 		 * @returns
 		 */
+
 		hello: {
+			tracing: {
+				// Add all params without meta
+				tags: {
+					params: true,
+					meta: false,
+				}
+			},
 			rest: {
 				method: "GET",
 				path: "/hello"
 			},
-			async handler() {
+
+			async handler(ctx) {
+				const res = await ctx.broker.call("greeter2.hellotwo");
 				return "Hello Moleculer";
 			}
 		},
@@ -70,24 +80,24 @@ module.exports = {
 
 	},
 
-	/**
-	 * Service created lifecycle event handler
-	 */
-	created() {
+	// /**
+	//  * Service created lifecycle event handler
+	//  */
+	// created() {
 
-	},
+	// },
 
-	/**
-	 * Service started lifecycle event handler
-	 */
-	async started() {
+	// /**
+	//  * Service started lifecycle event handler
+	//  */
+	// async started() {
 
-	},
+	// },
 
-	/**
-	 * Service stopped lifecycle event handler
-	 */
-	async stopped() {
+	// /**
+	//  * Service stopped lifecycle event handler
+	//  */
+	// async stopped() {
 
-	}
+	// }
 };
