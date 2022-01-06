@@ -3,15 +3,26 @@
 2. Create an Application Insights Resource [see docs](https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-new-resource)
 3. Place Appliction-Key from AppInsight into env file
 4. Source `.env` `export $(grep -v '^#' .env | xargs)`
-    - Unset variables with `unset $(grep -v '^#' .env | sed -E 's/(.*)=.*/\1/' | xargs)`
+    - Unset env variables with `unset $(grep -v '^#' .env | sed -E 's/(.*)=.*/\1/' | xargs)`
 # Run Project
 1. Start the project with `npm run dev` command.
+
+## Services
+- **api**: API Gateway services
+- **greeter**: Sample service with `hello` and `welcome` actions.
+    - **hello** calls `hellotwo` to test internal call tracing
+    - **welcome** call external endpoint
+- **greeter2**: Sample service with `hellotwo` and `welcome2` actions.
+    - **hello** called by `hellotwo` to test internal call tracing
+    - **welcome2** throws a molecular error
+
 
 # TODO
 - [x] Initial Tracer
 - [ ] Send errors to AppInsights
 - [ ] Send metrics to AppInsights
-- [ ] Track external calls
+- [x] Track external calls
+
 
 <!-- # moleculer-demo
 This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
