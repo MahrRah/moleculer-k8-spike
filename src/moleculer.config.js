@@ -173,6 +173,6 @@ module.exports = {
 	tracing: {
 		enabled: true,
 		// Available built-in exporters: "Console", "Datadog", "Event", "EventLegacy", "Jaeger", "Zipkin"
-		exporter: new AppInsightsTracingExporter("TEST-APP")
+		exporter: new AppInsightsTracingExporter({ nodeInstanceName: "TEST-APP", sendLiveMetrics: true, autoCollectPerformanceExtended: true})
 	}
 };

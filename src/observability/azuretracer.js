@@ -3,33 +3,37 @@ const _ = require("lodash");
 let appInsights = require("applicationinsights");
 const TracerBase = require("moleculer").TracerExporters.Base;
 
-const APP_NAME = "Molecular-Test-App";
-
 class AppInsightsTracingExporter extends TracerBase {
-	constructor({ appName = APP_NAME }) {
-		super();
-		this.appName = appName;
-		console.log("Initialized");
+	constructor(opts) {
+		super(opts);
+
+		this.opts = _.defaultsDeep(this.opts, {
+			appInsightsKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY,
+		});
 	}
 
 	init() {
+		if (typeof this.opts.appInsightsKey === "undefined"){		
+			console.log("The 'APPINSIGHTS_INSTRUMENTATIONKEY' env variable is missing!");
+		}
 		try {
 			appInsights
-				.setup() // Key is places in Env variables
-				.setAutoDependencyCorrelation(true)
-				.setAutoCollectRequests(true)
-				.setAutoCollectPerformance(true, true)
-				.setAutoCollectExceptions(true)
-				.setAutoCollectDependencies(true)
-				.setAutoCollectConsole(true)
-				.setUseDiskRetryCaching(true)
-				.setSendLiveMetrics(true);
-
+				.setup(this.opts.appInsightsKey) 
+				.setAutoDependencyCorrelation(this.opts.autoDependencyCorrelation || true )
+				.setAutoCollectRequests(this.opts.autoCollectRequests || true )
+				.setAutoCollectPerformance(this.opts.autoCollectPerformanceValue || true, this.opts.autoCollectPerformanceExtended || false) 
+				.setAutoCollectExceptions(this.opts.autoCollectRequests || true )
+				.setAutoCollectDependencies(this.opts.autoCollectDependencies || true )
+				.setAutoCollectConsole(this.opts.autoCollectConsole || true )
+				.setInternalLogging(this.opts.debugging || false,this.opts.warning || true)
+				.setUseDiskRetryCaching(this.opts.ueDiskRetryCaching || true )
+				.setSendLiveMetrics(this.opts.sendLiveMetrics || false );
 			appInsights.start();
-			this.client = new appInsights.TelemetryClient();
+
+			this.client = new appInsights.TelemetryClient(this.opts.appInsightsKey);
 			this.client.context.tags[
-				appInsights.TelemetryClient().context.keys.cloudRole
-			] = this.appName;
+				appInsights.TelemetryClient(this.opts.appInsightsKey).context.keys.cloudRole
+			] = this.nodeInstanceName;
 		} catch (err) {
 			// TODO log properly here
 			console.log(
@@ -48,6 +52,9 @@ class AppInsightsTracingExporter extends TracerBase {
 		this.client.trackRequest({ name: span.name, url: `${span.tags.nodeID}.${span.service.name}`, duration: span.duration, resultCode: !span.error ? 200 : span.error.code, success: !span.error });
 		this.client.flush();
 
+	}
+	stop(){
+		this.client.flush();
 	}
 }
 
