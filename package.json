@@ -3,17 +3,15 @@
   "version": "1.0.0",
   "description": "My Moleculer-based microservices project",
   "scripts": {
-    "dev": "moleculer-runner --repl --hot src/services/**/*.service.js",
-    "start": "moleculer-runner",
-    "cli": "moleculer connect NATS",
+    "dev": "cd src/ && moleculer-runner --repl --hot services/**/*.service.js",
+    "start": "cd src/ && moleculer-runner",
+    "cli": "cd src/ && moleculer connect NATS",
     "ci": "jest --watch",
     "test": "jest --coverage",
     "lint": "eslint services",
     "dc:up": "docker-compose up --build -d",
     "dc:logs": "docker-compose logs -f",
-    "dc:down": "docker-compose down", 
-    "env:set": "export $(grep -v '^#' .env | xargs)",
-    "env:unset": "unset $(grep -v '^#' .env | sed -E 's/(.*)=.*/\\1/' | xargs)"
+    "dc:down": "docker-compose down"
   },
   "keywords": [
     "microservices",
@@ -28,6 +26,7 @@
   },
   "dependencies": {
     "applicationinsights": "^2.1.9",
+    "axios": "^0.24.0",
     "lodash": "^4.17.21",
     "moleculer": "^0.14.16",
     "moleculer-web": "^0.10.2",

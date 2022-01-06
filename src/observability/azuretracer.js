@@ -9,11 +9,10 @@ class AppInsightsTracingExporter extends TracerBase {
 	constructor({ appName = APP_NAME }) {
 		super();
 		this.appName = appName;
+		console.log("Initialized");
 	}
 
-	init(tracer) {
-		super.init(tracer);
-
+	init() {
 		try {
 			appInsights
 				.setup() // Key is places in  
@@ -33,17 +32,18 @@ class AppInsightsTracingExporter extends TracerBase {
 			] = this.appName;
 		} catch (err) {
 			// TODO log properly here
-			this.broker.logger.info(
+			console.log(
 				"The 'applicationinsights' package is missing! Please install it with 'npm install applicationinsights --save' command!"
 			);
 		}
 	}
 
 	spanFinished(span) {
+		console.log(span);
 		this.client.trackRequest({ name: span.name, url: span.service.name, duration: span.duration, resultCode: !span.error ? 200 : span.error.code, success: !span.error });
 		this.client.flush();
 	
 	}
 }
 
-module.exports = AppInsightsTracingExporter;
+module.exports = AppInsightsTracingExporter; 

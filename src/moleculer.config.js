@@ -174,22 +174,5 @@ module.exports = {
 		enabled: true,
 		// Available built-in exporters: "Console", "Datadog", "Event", "EventLegacy", "Jaeger", "Zipkin"
 		exporter: new AppInsightsTracingExporter("TEST-APP")
-	},
-
-	// Register custom middlewares
-	middlewares: [],
-
-	// Register custom REPL commands.
-	replCommands: null,
-
-	// Called after broker created.
-	created(broker) { },
-
-	// Called after broker started.
-	async started(broker) {
-
-	},
-
-	// Called after broker stopped.
-	async stopped(broker) { },
+	}
 };

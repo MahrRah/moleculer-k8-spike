@@ -1,5 +1,4 @@
 "use strict";
-
 const ApiGateway = require("moleculer-web");
 
 /**
