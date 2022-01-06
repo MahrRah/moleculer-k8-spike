@@ -15,7 +15,7 @@ class AppInsightsTracingExporter extends TracerBase {
 	init() {
 		try {
 			appInsights
-				.setup() // Key is places in  
+				.setup() // Key is places in Env variables
 				.setAutoDependencyCorrelation(true)
 				.setAutoCollectRequests(true)
 				.setAutoCollectPerformance(true, true)
@@ -39,10 +39,15 @@ class AppInsightsTracingExporter extends TracerBase {
 	}
 
 	spanFinished(span) {
-		console.log(span);
-		this.client.trackRequest({ name: span.name, url: span.service.name, duration: span.duration, resultCode: !span.error ? 200 : span.error.code, success: !span.error });
+		// console.log(span);
+
+		if (span.error) {
+			this.client.trackException({ exception: span }); // This will propagation of the error all the way up
+		}
+
+		this.client.trackRequest({ name: span.name, url: `${span.tags.nodeID}.${span.service.name}`, duration: span.duration, resultCode: !span.error ? 200 : span.error.code, success: !span.error });
 		this.client.flush();
-	
+
 	}
 }
 
